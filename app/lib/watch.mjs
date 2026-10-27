@@ -1,8 +1,7 @@
-// Viewer mode: /roast-room runs in Claude Code and writes its session folder as it
-// goes. This watches the sessions folder and turns those files into the same events the
-// API runner emits, so the room plays a Claude Code council live without calling any API.
+// Viewer mode: $roast-room runs in Codex and writes its session folder as it
+// goes. This watches the sessions folder and streams those files to the room for playback.
 //
-// Files the Chair writes, in order (spec: .claude/skills/roast-room/references/live-room.md):
+// Files the Chair writes, in order (spec: .agents/skills/roast-room/references/live-room.md):
 //   council.json  -> setup        round-1.md -> Round 1 cards   cruxes.json -> fault lines
 //   round-2.md    -> debate cards  draft.json -> proposal       round-3.md  -> votes
 //   verdict.json  -> the verdict
@@ -10,7 +9,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { SEATS, byKey, parseCard, checkQuotes, loadRoster, defaultBoard, seatIn } from "./seats.mjs";
 import { SESSIONS_DIR } from "./env.mjs";
-import { optionScores, finalNumbers, verdictSeats, DISCLAIMER } from "./council.mjs";
+import { optionScores, finalNumbers, verdictSeats, DISCLAIMER } from "./scoring.mjs";
 
 const live = new Map(); // folder name -> session
 const STALE_MS = 3 * 60 * 60 * 1000; // a folder untouched this long is an abandoned council
@@ -58,6 +57,13 @@ function finish(x, status) {
   x.status = status;
   for (const res of x.subs) res.write(`data: ${JSON.stringify({ type: "end" })}\n\n`);
   x.subs.clear();
+}
+
+export function subscribe(x, res) {
+  for (const ev of x.events) res.write(`data: ${JSON.stringify(ev)}\n\n`);
+  if (x.status !== "running") { res.write(`data: ${JSON.stringify({ type: "end" })}\n\n`); return; }
+  x.subs.add(res);
+  res.on("close", () => x.subs.delete(res));
 }
 
 function normalizeSetup(c) {
@@ -197,10 +203,10 @@ function load(name) {
   return x;
 }
 
-/** Folders written by the skill (council.json, no events.json from the API runner). */
+/** Session folders written by the Codex skill. */
 function skillFolders() {
   if (!fs.existsSync(SESSIONS_DIR)) return [];
-  return fs.readdirSync(SESSIONS_DIR).filter((d) => fs.existsSync(path.join(SESSIONS_DIR, d, "council.json")) && !fs.existsSync(path.join(SESSIONS_DIR, d, "events.json")));
+  return fs.readdirSync(SESSIONS_DIR).filter((d) => fs.existsSync(path.join(SESSIONS_DIR, d, "council.json")));
 }
 
 export function scan() {
@@ -211,14 +217,14 @@ export function getLive(id) {
   return skillFolders().includes(id) ? load(id) : null;
 }
 
-/** The council running right now in Claude Code, if any (newest first). */
+/** The council running right now in Codex, if any (newest first). */
 export function runningId() {
   const r = [...live.values()].filter((x) => x.status === "running" && x.events.length).sort((a, b) => (a.id < b.id ? 1 : -1));
   return r[0]?.id || null;
 }
 
 export function listLive() {
-  return skillFolders().map((n) => { const x = load(n); return { id: x.id, title: x.title || n, prompt: "", mode: x.mode, status: x.status, source: "claude-code" }; });
+  return skillFolders().map((n) => { const x = load(n); return { id: x.id, title: x.title || n, prompt: "", mode: x.mode, status: x.status, source: "codex" }; });
 }
 
 export function startWatching() {

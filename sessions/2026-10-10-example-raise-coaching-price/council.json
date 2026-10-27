@@ -1,0 +1,66 @@
+{
+  "title": "Raise coaching price to $3,500",
+  "decision": "Should the founder raise the coaching price from $2,000 to $3,500, and for whom?",
+  "mode": "full",
+  "options": [
+    {
+      "id": "A",
+      "label": "Raise to $3,500 for everyone now"
+    },
+    {
+      "id": "B",
+      "label": "Raise to $3,500 for new clients only, keep current clients at $2,000"
+    },
+    {
+      "id": "C",
+      "label": "Keep the price at $2,000 for everyone"
+    }
+  ],
+  "weights": {
+    "bezos": {
+      "weight": 2,
+      "reason": "Repricing existing clients is a trust call that is hard to reverse."
+    },
+    "graham": {
+      "weight": 1,
+      "reason": "Only touched if client results do or do not justify the new price."
+    },
+    "hormozi": {
+      "weight": 3,
+      "reason": "This is a pricing and offer decision at its core."
+    },
+    "garyvee": {
+      "weight": 1,
+      "reason": "How current clients feel affects referrals and reputation."
+    },
+    "martell": {
+      "weight": 2,
+      "reason": "Feeling underpaid ties to founder time, capacity, and burnout."
+    },
+    "wickman": {
+      "weight": 1,
+      "reason": "Fewer clients at higher prices changes delivery load at the edges."
+    },
+    "buffett": {
+      "weight": 2,
+      "reason": "Raising on everyone puts current monthly revenue at risk."
+    }
+  },
+  "seats": [
+    "bezos",
+    "graham",
+    "hormozi",
+    "garyvee",
+    "martell",
+    "wickman",
+    "buffett"
+  ],
+  "brief": "The founder runs a coaching business doing $30k a month with 15 active clients at $2,000 each. Close rate on sales calls is about 50%. The proposal is to raise the price to $3,500. Three paths are on the table: raise for all 15 current clients now, raise for new clients only, or keep the price at $2,000. Success means more revenue per client without losing enough clients or closes to wipe out the gain. At $3,500, the same 15 clients would bring in $52,500 a month. If everyone is raised, the business stays ahead of today's $30k as long as at least 9 of 15 stay. The founder is leaning toward raising for everyone now, because they feel underpaid. The founder did not share capacity limits, contract terms, lead volume, or client results.",
+  "assumptions": [
+    "The $2,000 and $3,500 prices are per client per month.",
+    "Current clients are not locked into contracts that block a price change.",
+    "The founder has capacity limits but did not state them.",
+    "The 50% close rate was measured at $2,000 and will likely drop at $3,500 by an unknown amount.",
+    "Lead flow is steady enough to replace clients who leave."
+  ]
+}

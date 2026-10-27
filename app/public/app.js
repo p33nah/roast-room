@@ -4,13 +4,6 @@ const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
-const SAMPLES = [
-  ["Raise my prices?", "I run a coaching business doing $30k a month with 15 active clients at $2,000 each. I want to raise the price to $3,500. Options: raise for everyone now, raise for new clients only, or keep $2,000. Close rate is about 50% on sales calls. I'm leaning toward raising for everyone because I'm underpaid."],
-  ["First salesperson?", "I'm a solo founder of a B2B SaaS at $25k MRR growing 5% a month. I do every sales call myself (about 20 hours a week) and I'm burning out. Should I hire a full-time account executive at $120k base, hire a part-time commission-only closer, or keep selling myself for six more months? I have $150k in the bank."],
-  ["Second product?", "My agency makes $80k a month building AI automations for dentists. A few clients asked for an AI receptionist product. Should I build the receptionist as a separate SaaS, offer it as an add-on to existing clients only, or stay focused on the agency? Team of 6, about $200k cash."],
-  ["Quit my job?", "I make $180k a year at a tech company. My side business (a paid newsletter) makes $6k a month and grew 8% a month this year. I have 9 months of expenses saved. Should I quit now, quit in 6 months, or keep both and hire a writer?"],
-];
-
 const EXAMPLE = "I run a coaching business at $30k a month with 15 clients at $2,000 each. Should I raise to $3,500 for everyone, raise for new clients only, or keep $2,000? Close rate is about 50% and I have $40k in the bank. Success is $45k a month by March. I'm leaning toward raising for everyone because I'm underpaid.";
 
 // The how-to, shown in the side panel while the room is empty and in "How it works".
@@ -19,8 +12,8 @@ const GUIDE = `
     <div class="guide-sec">
       <h4>How to use the Roast Room</h4>
       <ol>
-        <li><span>Open Claude Code in this folder.</span></li>
-        <li><span>Type <code>/roast-room</code> and your decision.</span></li>
+        <li><span>Open Codex in this folder.</span></li>
+        <li><span>Invoke <code>$roast-room</code> and describe your decision.</span></li>
         <li><span>Pick your advisors (the Chair recommends a board) and answer its questions. Then watch the council argue it out here.</span></li>
         <li><span>When the verdict lands, download it as a PDF.</span></li>
       </ol>
@@ -40,7 +33,7 @@ const GUIDE = `
     <div class="guide-sec">
       <h4>Example</h4>
       <div class="example">
-        <p><code>/roast-room</code> ${EXAMPLE.replace(/&/g, "&amp;").replace(/</g, "&lt;")}</p>
+        <p><code>$roast-room</code> ${EXAMPLE.replace(/&/g, "&amp;").replace(/</g, "&lt;")}</p>
         <button class="ghost" type="button" data-copy-example>Copy this example</button>
       </div>
     </div>
@@ -51,13 +44,13 @@ const GUIDE = `
         <li><span><b>Full council:</b> 5 to 7 advisors, 3 rounds. For big calls that are hard to undo.</span></li>
         <li><span><b>Quick:</b> add <code>--quick</code> for 4 advisors and 2 rounds. Uses far less of your plan.</span></li>
         <li><span><b>Every council is saved.</b> Open Past sessions to replay one or download its PDF.</span></li>
-        <li><span><b>Add an advisor:</b> type <code>/newroaster</code> and a name. Change your default board with <code>/roast-room board</code>.</span></li>
+        <li><span><b>Add an advisor:</b> invoke <code>$newroaster</code> with a name. Change your board with <code>$roast-room board</code>.</span></li>
       </ul>
     </div>
   </div>`;
 
 const SHAPES = ["base", "open", "mid", "blink"];
-// A seat's cartoon frames live in /portraits/<key>-<shape>.webp (or .png, .jpg). A seat added with /newroaster
+// A seat's cartoon frames live in /portraits/<key>-<shape>.webp (or .png, .jpg). A seat added with $newroaster
 // may have only a base frame, or none: missing frames fall back to the base frame, then to a
 // drawn bust in the seat's color whose mouth and eyes still move.
 const portrait = (key, shape = "base") => {
@@ -99,21 +92,16 @@ const state = {
 
 // ------------------------------------------------------------- boot
 async function boot() {
-  const r = await refreshSeats();
-  state.runner = r.runner;
-  if (r.runner === "api" && !r.hasKey) toast("No ANTHROPIC_API_KEY found in .env. Add it and restart the server.");
+  await refreshSeats();
   renderSeats(state.board);
-  renderSamples();
   bindUI();
   new ResizeObserver(() => { layoutStage(); drawLinks(); }).observe($("#stage"));
   startBlinking();
   reset();
-  typeIn($("#composer h2"));
   typeIn($("#waiting h2"));
   const ss = await fetch("/api/sessions").then((x) => x.json());
   if (ss.running) attach(ss.running);
   else if (ss.live) attach(ss.live);
-  refreshUsage();
   setInterval(watchForLive, 2500);
   setInterval(tickWait, 1000);
 }
@@ -129,7 +117,7 @@ async function refreshSeats() {
   return r;
 }
 
-// a council started in Claude Code shows up here on its own
+// a council started in Codex shows up here on its own
 const seenLive = new Set();
 async function watchForLive() {
   const ss = await fetch("/api/sessions").then((x) => x.json()).catch(() => null);
@@ -148,15 +136,6 @@ function typeIn(el) {
   let i = 0;
   el.innerHTML = text.split(" ").map((word) => `<span class="wd">${[...word].map((c) => `<span class="ch" style="animation-delay:${i++ * 22}ms">${esc(c)}</span>`).join("")}</span>`).join(" ");
   el.setAttribute("aria-label", text);
-}
-
-function renderSamples() {
-  $("#samples").innerHTML = SAMPLES.map(([t], i) => `<button type="button" data-i="${i}">${esc(t)}</button>`).join("");
-  $("#samples").addEventListener("click", (e) => {
-    const b = e.target.closest("button"); if (!b) return;
-    $("#prompt").value = SAMPLES[b.dataset.i][1];
-    $("#prompt").focus();
-  });
 }
 
 const MAX_TABLE = 9; // the most busts the table can seat and still read
@@ -236,18 +215,6 @@ function moveSpot(key) {
 }
 
 function bindUI() {
-  $("#composer").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const prompt = $("#prompt").value.trim();
-    if (prompt.length < 10) return toast("Give the council a real decision, at least a sentence.");
-    const mode = $('input[name="mode"]:checked').value;
-    $("#convene").disabled = true;
-    const r = await fetch("/api/council", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ prompt, mode }) });
-    const j = await r.json();
-    $("#convene").disabled = false;
-    if (!r.ok) return toast(j.error || "Could not start the council.");
-    attach(j.id);
-  });
   const openFrom = (e) => { const b = e.target.closest("[data-seat]"); if (b) openCard(b.dataset.seat); };
   $("#seats").addEventListener("click", openFrom);
   $("#plates").addEventListener("click", openFrom);
@@ -258,7 +225,7 @@ function bindUI() {
   $("#guideBtn").addEventListener("click", openGuide);
   document.addEventListener("click", async (e) => {
     if (e.target.closest("[data-copy-example]")) {
-      try { await navigator.clipboard.writeText("/roast-room " + EXAMPLE); toast("Copied. Paste it into Claude Code."); }
+      try { await navigator.clipboard.writeText("$roast-room " + EXAMPLE); toast("Copied. Paste it into Codex."); }
       catch { toast("Copy didn't work here. Select the text and copy it."); }
     }
     if (e.target.closest("[data-pdf]")) savePdf(e.target.closest("[data-pdf]"));
@@ -325,8 +292,7 @@ function reset() {
   hideWait();
   $("#stage").classList.remove("live");
   $("#topic").hidden = true;
-  $("#composer").hidden = state.runner !== "api";
-  $("#waiting").hidden = state.runner === "api";
+  $("#waiting").hidden = false;
   $("#caption").hidden = true;
   $("#cruxes").hidden = true;
   $("#plate").hidden = true;
@@ -347,7 +313,6 @@ function reset() {
 function begin(id) {
   reset();
   state.session = id;
-  $("#composer").hidden = true;
   $("#waiting").hidden = true;
   $("#newBtn").hidden = false;
   $("#playbar").hidden = false;
@@ -363,9 +328,8 @@ function attach(id) {
   state.es = es;
   es.onmessage = (m) => {
     const ev = JSON.parse(m.data);
-    if (ev.type === "end") { es.close(); refreshUsage(); return; }
+    if (ev.type === "end") { es.close(); return; }
     if (ev.type === "delta") return; // seats speak from their finished cards
-    if (ev.type === "usage") return refreshUsage();
     if (ev.type === "seat_error") return toast(`${state.byKey[ev.seat].short} hit an error: ${ev.error}`);
     player.push(ev);
   };
@@ -788,15 +752,15 @@ async function replay(id) {
   begin(id);
   state.replaying = true;
   for (const ev of j.events) {
-    if (["delta", "usage", "seat_error", "end"].includes(ev.type)) continue;
+    if (["delta", "seat_error", "end"].includes(ev.type)) continue;
     player.push(ev);
   }
 }
 
-// ------------------------------------------------------------- waiting on Claude Code
+// ------------------------------------------------------------- waiting on Codex
 // A live council goes quiet for minutes while the seats write in parallel. Instead of a
 // frozen table, say what is happening, how long it has been, and what each seat is weighing.
-const SAME_TIME = "The advisors all write at the same time in Claude Code. Their lines play here as soon as the round is in.";
+const SAME_TIME = "The advisors work in parallel in Codex. Their lines play here as soon as the round is in.";
 function waitCopy(phase) {
   const n = state.setup?.mode === "quick" ? 2 : 3;
   return {
@@ -911,11 +875,4 @@ function toast(msg) {
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => (t.hidden = true), 6000);
 }
-async function refreshUsage() {
-  const u = await fetch("/api/usage").then((x) => x.json()).catch(() => null);
-  if (!u || !u.calls) { $("#usage").textContent = ""; return; }
-  const k = (n) => (n >= 1e6 ? `${(n / 1e6).toFixed(1)}M` : `${Math.round(n / 1000)}k`);
-  $("#usage").textContent = `${u.calls} calls · ${k(u.input + u.cacheRead + u.cacheWrite)} in · ${k(u.output)} out`;
-}
-
 boot();

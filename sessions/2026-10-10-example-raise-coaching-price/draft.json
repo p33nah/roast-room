@@ -1,0 +1,23 @@
+{
+  "option": "B",
+  "label": "GO",
+  "recommendation": "Raise to $3,500 for new clients starting now, and keep current clients at $2,000 only until a written trigger moves them up. The room is unanimous on B (8.0 weighted). Capacity is the one fact that could favor a staged raise for everyone, so confirm it first.",
+  "conditions": [
+    "Close rate at $3,500 stays above 29% across the first 15 logged sales calls. This is the break-even line Graham, Gary V, and Wickman all named. Above 35%, move current clients sooner (Gary V).",
+    "Current clients step up after 15 calls at $3,500 or 30 days, whichever is later (Graham's trigger). They get 60 days' personal notice, effective at their next billing cycle (Martell, Bezos, Gary V).",
+    "At least 12 of 15 current clients can name a concrete result and say they would stay at the step-up, checked by asking each one (Graham).",
+    "Six months of operating cash on hand before any current client is moved, so a 30 to 50% drop in clients does not threaten runway (Wickman).",
+    "Founder confirms in writing that no client contract blocks a price change, and states max client capacity and weekly hours (Graham, Wickman, Martell)."
+  ],
+  "next_steps": [
+    "Day 1: Write down max client capacity, current weekly coaching hours, and whether a waitlist exists. If the roster is full with a waitlist, flag it for review, since Martell, Bezos, and Gary V say a staged raise for everyone gets much stronger then.",
+    "Day 1: Review all 15 client agreements for terms that block a price change.",
+    "Day 1: Update the sales page and call script to $3,500 for every new prospect.",
+    "Day 2: Start a scorecard tracking calls, closes at $3,500, active clients, founder hours, and cash on hand, updated weekly (Wickman).",
+    "Days 1 to 14: Hold short check-in calls with each current client. Ask what result they got and what the coaching is worth to them. Do not announce the raise yet.",
+    "Day 30 or after call 15, whichever is later: Compare the close rate to 29%. If it clears, call each current client personally, starting with the strongest results, and give 60 days' notice.",
+    "Day 90: Every client on one price. No two-tier roster past this date."
+  ],
+  "cheapest_test": "Quote $3,500 on the next 15 sales calls with no other change to the offer, log each outcome, and compare the close rate to the 29% break-even line.",
+  "kill_criteria": "If the close rate at $3,500 is below 29% after 15 calls, return new-client pricing to $2,000, keep current clients where they are, and treat the raise as unproven until client results are documented. If 4 or more current clients say they would quit at the step-up, do not move current clients. Re-run the check in 90 days."
+}

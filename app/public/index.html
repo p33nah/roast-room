@@ -26,7 +26,6 @@
       <li data-step="verdict">Verdict</li>
     </ol>
     <div class="top-actions">
-      <span class="usage" id="usage" title="Tokens used by this app since it started"></span>
       <button class="ghost" id="guideBtn" type="button">How it works</button>
       <button class="ghost" id="historyBtn" type="button">Past sessions</button>
       <button class="ghost" id="newBtn" type="button" hidden>New question</button>
@@ -55,23 +54,10 @@
           <div class="waiting" id="waiting" hidden>
             <span class="pulse"><i></i>The room is open</span>
             <h2 data-type>Bring a decision to the Roast Room</h2>
-            <p>In Claude Code, type the line below with your decision. The council shows up here and argues it out live.</p>
-            <code>/roast-room should I ...</code>
+            <p>In Codex, run $roast-room with your decision. The council shows up here and argues it out live.</p>
+            <code>$roast-room should I ...</code>
             <div class="row"><button class="ghost" type="button" id="waitGuide">What to put in your question</button><button class="ghost" type="button" id="waitHistory">Watch a past council</button></div>
           </div>
-
-          <form class="composer" id="composer" hidden>
-            <h2 data-type>What decision do you need help with?</h2>
-            <textarea id="prompt" rows="3" placeholder="Give them the decision, your options, a few numbers (revenue, cash, team), and which way you're leaning." required minlength="10"></textarea>
-            <div class="samples" id="samples"></div>
-            <div class="composer-row">
-              <div class="mode" role="radiogroup" aria-label="Council size">
-                <label><input type="radio" name="mode" value="full" checked><span>Full council <small>7 seats, 3 rounds</small></span></label>
-                <label><input type="radio" name="mode" value="quick"><span>Quick <small>4 seats, 2 rounds</small></span></label>
-              </div>
-              <button class="convene" type="submit" id="convene">Convene the council</button>
-            </div>
-          </form>
 
           <div class="caption" id="caption" hidden>
             <div class="cap-head">
@@ -89,7 +75,7 @@
             <p class="wc-sub" id="wcSub"></p>
             <p class="wc-muse" id="wcMuse"></p>
             <div class="wc-bar"><i id="wcBar"></i></div>
-            <p class="wc-nudge" id="wcNudge" hidden>Nothing new for a while? Check Claude Code. It may be waiting for you to answer or approve something.</p>
+            <p class="wc-nudge" id="wcNudge" hidden>Nothing new for a while? Check Codex. It may be waiting for you to answer or approve something.</p>
           </div>
 
           <div class="cruxes" id="cruxes" hidden></div>
