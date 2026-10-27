@@ -1,0 +1,72 @@
+{
+  "cruxes": [
+    {
+      "question": "Strongest unargued alternative: should all 15 current clients move to $3,500 now (Option A), given that 9 of 15 staying matches today's revenue and fewer clients frees founder hours?",
+      "sides": [
+        {
+          "position": "No. Test on new clients first, because current clients are the referral base and a trust break is hard to undo.",
+          "seats": [
+            "bezos",
+            "graham",
+            "garyvee",
+            "buffett",
+            "wickman"
+          ]
+        },
+        {
+          "position": "Must argue A at full strength: price is pulled too late, capacity is likely the real constraint, and a smaller roster at a higher price may be the better business.",
+          "seats": [
+            "martell",
+            "hormozi"
+          ]
+        }
+      ]
+    },
+    {
+      "question": "Do current clients get a fixed date to move to $3,500, or stay at $2,000 until the new-client data says otherwise?",
+      "sides": [
+        {
+          "position": "Set a dated step-up now, with 60 to 90 days' notice or at renewal.",
+          "seats": [
+            "bezos",
+            "hormozi",
+            "garyvee",
+            "martell",
+            "wickman"
+          ]
+        },
+        {
+          "position": "Leave them at $2,000 and revisit only after real closes at $3,500.",
+          "seats": [
+            "graham",
+            "buffett"
+          ]
+        }
+      ]
+    },
+    {
+      "question": "Is the founder's feeling of being underpaid evidence for raising, or only a feeling?",
+      "sides": [
+        {
+          "position": "It is data. Founders undercharge, and the feeling points at a real gap.",
+          "seats": [
+            "martell"
+          ]
+        },
+        {
+          "position": "It is a feeling. Client results and close rates are the evidence.",
+          "seats": [
+            "bezos",
+            "graham",
+            "hormozi",
+            "garyvee",
+            "wickman",
+            "buffett"
+          ]
+        }
+      ]
+    }
+  ],
+  "unanimous": true,
+  "note": "Every seat picks B at 8 out of 10, so the real fight is about your current 15: whether to give them a dated move to $3,500 or leave them alone until new-client closes prove the price. Nobody has yet made the full case for raising everyone now, so two seats will argue it next round."
+}

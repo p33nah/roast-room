@@ -1,0 +1,44 @@
+{
+  "cruxes": [
+    {
+      "question": "Is 5% monthly growth a demand problem the founder must solve on the calls, or a capacity problem that more selling hands can fix?",
+      "sides": [
+        {
+          "position": "Demand problem. 5% a month signals the founder has not yet figured out what works. The answer lives in the founder's own calls, so offloading them hides it.",
+          "seats": [
+            "graham"
+          ]
+        },
+        {
+          "position": "Capacity and energy problem. The founder is burning out at 20 hours a week of calls, so peeling off some calls protects growth and frees time.",
+          "seats": [
+            "martell",
+            "hormozi",
+            "buffett"
+          ]
+        }
+      ]
+    },
+    {
+      "question": "Can sales be handed to someone else before a written playbook exists?",
+      "sides": [
+        {
+          "position": "No. Founders must sell themselves at this stage. A closer learns nothing for the founder and can burn leads.",
+          "seats": [
+            "graham"
+          ]
+        },
+        {
+          "position": "Yes, in a limited form. Record calls, write the script, hand off average or qualified leads, and keep discovery, pricing, and top leads with the founder.",
+          "seats": [
+            "martell",
+            "hormozi",
+            "buffett"
+          ]
+        }
+      ]
+    }
+  ],
+  "unanimous": false,
+  "note": "Every seat scores the $120k AE low, so the real fight is between a commission-only closer on a narrow slice of calls and keeping the calls yourself while cutting volume. It comes down to whether slow growth is a demand issue only you can diagnose or a capacity issue a closer can help with."
+}
