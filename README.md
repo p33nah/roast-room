@@ -4,7 +4,7 @@
 
 Roast Room turns a difficult business decision into a scored debate among simulated advisors. Twelve seats ship with sourced brains drawn from each person's public work. The Chair recommends a council, asks for missing context, runs up to three rounds, checks attributed quotes, and writes a verdict with a one-click PDF. A local web app plays the council live and replays saved sessions.
 
-This repository adapts [p33nah/roast-room](https://github.com/p33nah/roast-room), originally built for Claude Code, to Codex skills and project agents. See [the port analysis](docs/codex-port.md) for the source architecture, compatibility decisions, and limits.
+See [the architecture notes](docs/codex-port.md) for how the Codex skill, project agents, and local viewer fit together.
 
 ## The council
 

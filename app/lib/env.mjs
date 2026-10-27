@@ -10,4 +10,3 @@ export const ROSTER = path.join(ROOM_SKILL_DIR, "roster.json");
 export const AGENT_PROMPTS_DIR = path.join(ROOM_SKILL_DIR, "agents");
 export const CODEX_AGENTS_DIR = path.join(REPO_ROOT, ".codex", "agents");
 export const SESSIONS_DIR = path.join(REPO_ROOT, "sessions");
-
